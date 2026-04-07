@@ -22,6 +22,6 @@ public class MockTimeTableProvider implements TimetableProvider {
         );
         tt.setActivities(activities);
 
-        return null;
+        return tt;
     }
 }
