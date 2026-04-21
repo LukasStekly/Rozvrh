@@ -24,11 +24,20 @@ public class TimetableFrame extends JFrame {
         timetable = provider.read("J", "J22");
 
         tabTimetable = new JTable(new TimetableModel());
+        JPanel comboPanel = new JPanel();
 
         tabTimetable.setAutoCreateRowSorter(true);
 
         add(new JScrollPane(tabTimetable), BorderLayout.CENTER);
 
+        JComboBox<String> comboBoxBudovy = new JComboBox<>(new String[]{"A", "B","C", "J","F"});
+        JComboBox<String> comboBoxMistnosti = new JComboBox<>(new String[]{"A1", "A2","A3", "A4","B1", "B2","B3", "B4","C1", "C2","C3", "C4","J1", "J2","J3", "J4","F1", "F2","F3", "F4"});
+
+        JLabel odeslat = new JLabel("Send");
+
+        comboPanel.add(comboBoxBudovy,comboBoxMistnosti);
+
+        add(comboPanel,BorderLayout.NORTH);
 
         pack();
     }
