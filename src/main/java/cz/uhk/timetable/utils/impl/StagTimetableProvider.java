@@ -1,13 +1,16 @@
 package cz.uhk.timetable.utils.impl;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import cz.uhk.timetable.model.LocationTimeTable;
+import cz.uhk.timetable.utils.StagTimeAdapter;
 import cz.uhk.timetable.utils.TimetableProvider;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalTime;
 
 public class StagTimetableProvider  implements TimetableProvider {
     @Override
@@ -19,7 +22,9 @@ public class StagTimetableProvider  implements TimetableProvider {
         try{
            URL server = new URL(url);
             //3. Vyrobit instanci Gson parseru
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalTime.class, new StagTimeAdapter())
+                    .create();
             //4. Nacist data rozvrhu pomoci
             return gson.fromJson(new InputStreamReader(server.openStream()),
                           LocationTimeTable.class

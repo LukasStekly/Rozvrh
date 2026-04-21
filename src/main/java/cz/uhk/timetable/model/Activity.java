@@ -1,5 +1,7 @@
 package cz.uhk.timetable.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,11 +12,17 @@ import java.time.LocalTime;
 
 
 public class Activity {
+    @SerializedName("predmet")
     private String code;
+    @SerializedName("nazev")
     private String name;
+    @SerializedName("den")
     private String day;
-    private LocalTime StartTime;
-    private LocalTime endTime;
+    @SerializedName("hodinaSkutOd")
+    private  LocalTime StartTime;
+    @SerializedName("hodinaSkutDo")
+    private  LocalTime endTime;
+    @SerializedName("vsichniUciteleJmenaTituly")
     private String Teacher;
 
     public Activity() {

@@ -1,5 +1,7 @@
 package cz.uhk.timetable.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +46,8 @@ public class LocationTimeTable {
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
     }
+
+    @SerializedName("rozvrhovaAkce")
 
     private List<Activity> activities = new ArrayList<>();
 }
