@@ -8,6 +8,8 @@ import cz.uhk.timetable.utils.impl.StagTimetableProvider;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TimetableFrame extends JFrame {
     private LocationTimeTable timetable;
@@ -30,16 +32,36 @@ public class TimetableFrame extends JFrame {
 
         add(new JScrollPane(tabTimetable), BorderLayout.CENTER);
 
+        JLabel labelBudova = new JLabel("Budova");
+        JLabel labelMistnost = new JLabel("Místnost");
+
         JComboBox<String> comboBoxBudovy = new JComboBox<>(new String[]{"A", "B","C", "J","F"});
-        JComboBox<String> comboBoxMistnosti = new JComboBox<>(new String[]{"A1", "A2","A3", "A4","B1", "B2","B3", "B4","C1", "C2","C3", "C4","J1", "J2","J3", "J4","F1", "F2","F3", "F4"});
+        JComboBox<String> comboBoxMistnosti = new JComboBox<>(new String[]{"A201", "A202","A203", "A204","B1", "B2","B3", "B4","C1", "C2","C3", "C4","J1", "J2","J3", "J4","F1", "F2","F3", "F4"});
 
-        JLabel odeslat = new JLabel("Send");
+        JButton odeslat = new JButton("Send");
 
-        comboPanel.add(comboBoxBudovy,comboBoxMistnosti);
+        comboPanel.add(labelBudova);
+        comboPanel.add(comboBoxBudovy);
+        comboPanel.add(labelMistnost);
+        comboPanel.add(comboBoxMistnosti);
+        comboPanel.add(odeslat);
 
-        add(comboPanel,BorderLayout.NORTH);
+        add(comboPanel, BorderLayout.NORTH);
 
         pack();
+
+        odeslat.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String vybranaBudova = (String) comboBoxBudovy.getSelectedItem();
+                String vybranaMistnost = (String) comboBoxMistnosti.getSelectedItem();
+
+                timetable = provider.read(vybranaBudova, vybranaMistnost);
+
+               AbstractTableModel model = (AbstractTableModel) tabTimetable.getModel();
+                model.fireTableDataChanged();
+            }
+        });
     }
 
     class TimetableModel extends AbstractTableModel {
