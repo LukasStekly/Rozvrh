@@ -50,7 +50,6 @@ public class TimetableFrame extends JFrame {
         comboPanel.add(btnZobrazitGrid); // PRIDANO
 
         add(comboPanel, BorderLayout.NORTH);
-
         pack();
 
         odeslat.addActionListener(new ActionListener() {
