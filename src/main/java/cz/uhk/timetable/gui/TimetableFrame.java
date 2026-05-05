@@ -12,13 +12,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TimetableFrame extends JFrame {
-    private LocationTimeTable timetable;
-    private TimetableProvider provider = new StagTimetableProvider();
-    private JTable tabTimetable;
+    public LocationTimeTable timetable;
+    public TimetableProvider provider = new StagTimetableProvider();
+    public JTable tabTimetable;
+    private RozvrhGridFrame gridFrame = new RozvrhGridFrame();
 
     public TimetableFrame(){
         super("FIM Rozvrhy");
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         initGui();
     }
 
@@ -36,15 +37,17 @@ public class TimetableFrame extends JFrame {
         JLabel labelMistnost = new JLabel("Místnost");
 
         JComboBox<String> comboBoxBudovy = new JComboBox<>(new String[]{"A", "B","C", "J","F"});
-        JComboBox<String> comboBoxMistnosti = new JComboBox<>(new String[]{"A201", "A202","A203", "A204","B1", "B2","B3", "B4","C1", "C2","C3", "C4","J1", "J2","J3", "J4","F1", "F2","F3", "F4"});
+        JComboBox<String> comboBoxMistnosti = new JComboBox<>(new String[]{"1","2","3","4","5","205","206", "207"});
 
         JButton odeslat = new JButton("Send");
+        JButton btnZobrazitGrid = new JButton("Grafický rozvrh"); // PRIDANO
 
         comboPanel.add(labelBudova);
         comboPanel.add(comboBoxBudovy);
         comboPanel.add(labelMistnost);
         comboPanel.add(comboBoxMistnosti);
         comboPanel.add(odeslat);
+        comboPanel.add(btnZobrazitGrid); // PRIDANO
 
         add(comboPanel, BorderLayout.NORTH);
 
@@ -56,10 +59,19 @@ public class TimetableFrame extends JFrame {
                 String vybranaBudova = (String) comboBoxBudovy.getSelectedItem();
                 String vybranaMistnost = (String) comboBoxMistnosti.getSelectedItem();
 
-                timetable = provider.read(vybranaBudova, vybranaMistnost);
+                timetable = provider.read(vybranaBudova, vybranaBudova +  vybranaMistnost);
 
-               AbstractTableModel model = (AbstractTableModel) tabTimetable.getModel();
+                AbstractTableModel model = (AbstractTableModel) tabTimetable.getModel();
                 model.fireTableDataChanged();
+                gridFrame.updateData(timetable);
+            }
+        });
+        // PRIDANO: Akce pro nové tlačítko
+        btnZobrazitGrid.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gridFrame.updateData(timetable);
+                gridFrame.setVisible(true); // Zobrazí druhé okno
             }
         });
     }
